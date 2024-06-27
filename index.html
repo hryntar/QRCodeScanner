@@ -6,7 +6,6 @@
       <title>Document</title>
    </head>
    <body>
-      <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
       <div style="text-align: center">
          <div id="reader" style="max-width: 100%; height: 100%"></div>
          <div id="show" style="display: none">
@@ -16,7 +15,7 @@
             <p id="product-result"></p>
          </div>
          <button
-            onclick="scanBarcode()"
+            onclick="startBarcodeScanner()"
             style="
                height: 40px;
                width: 100px;
@@ -42,37 +41,55 @@
             <p>Scan</p>
          </button>
       </div>
-      <script>
-         function scanBarcode() {
-            const html5QRcode = new Html5Qrcode("reader");
-            const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-               if (decodedText) {
-                  document.getElementById("show").style.display = "block";
-                  document.getElementById("result").textContent = decodedText;
-                  html5QRcode.stop();
-                  fetch(`https://api.au-aws.thewishlist.io/services/productsvc/api/v2/products/variants/${decodedText}/byBarcode`, {
-                     method: "GET",
-                     headers: {
-                        "x-twc-tenant": "viktoria-woods",
-                        "authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJRWlJkS3JabXJmMEk3WkhXRUtqNWRLTEhQanFubWJFeV9iNmpSbHdya1drIn0.eyJleHAiOjE3MTk0OTY2NjAsImlhdCI6MTcxOTQ5NTQ2MCwianRpIjoiMjNlZTkzNDYtNGU0OC00MWQ0LWJjOTMtY2Y0NDhhMmM5ZjA4IiwiaXNzIjoiaHR0cHM6Ly9hdXRoLmF1LWF3cy50aGV3aXNobGlzdC5pby9hdXRoL3JlYWxtcy90d2NNYWluIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjI2YTIyNTAyLWRhNzQtNDhkMC1iZWFiLTgzY2E0YTlmMDdlOSIsInR5cCI6IkJlYXJlciIsImF6cCI6InR3Yy1wb3MtY2xpZW50Iiwic2Vzc2lvbl9zdGF0ZSI6IjQ4OWU1MWQ3LTNlOWUtNGFiMC04MjM5LTM5NGY3MDYyYWZlMiIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9sb2NhbGhvc3QiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbInR3Yy1wb3MtdXNlciIsIm9mZmxpbmVfYWNjZXNzIiwidHdjLXN0b3JlLW93bmVyIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InRlbmFudGlkIHN0b3JlIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInRlbmFudGlkIjoidmlrdG9yaWEtd29vZHMiLCJuYW1lIjoiTWF0dCBIYW1wc2hpcmUiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJtYXR0QHRoZXdpc2hsaXN0LmlvIiwic3RvcmUiOiIyMDUiLCJnaXZlbl9uYW1lIjoiTWF0dCIsImZhbWlseV9uYW1lIjoiSGFtcHNoaXJlIiwiZW1haWwiOiJtYXR0QHRoZXdpc2hsaXN0LmlvIn0.U4rbStrpNfsCrRuJejiu8bWuwg-C5LZsvrq8dvkymnHwXRl2_TTc95KzJX14YzCQk_Mdf3SsPkqJh_c2Ri-A7T-9v6R4Jy9Q5kcEBycBZNRLuXqh3VEtB5WWaokM28dAxgFS8FA6bLPT7cHBeFzYBMm4nxPP9ZW8E0AVBJ1CuqN8JhatjXFWSDfNBVXczJA3RmKSLE3mh_5xQkrWKbAX3wcSpKIXxLqAmUhgL0QFFnrkUDL5UtrgabyduR_Zez1KOyphjmSIdLv-mcCiUc54IX4BPvvyRgjzJj7CD_Aw5Gn7f-XMC_fgZu1nsOSh3elH3bj5DHSdsCC-85HtDWN9aQ"
-                     },
-                  })
-                     .then((response) => response.json())
-                     .then((data) => {
-                        document.getElementById("product-result").textContent = JSON.stringify(data);
-                     })
-                     .catch((error) => {
-                        console.error("Error:", error);
-                     });
-               }
-            };
-
-            const config = {
-               fps: 10,
-               qrbox: { width: 200, height: 100 },
-            };
-            html5QRcode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
-         }
-      </script>
    </body>
+   <script src="scanner.js"></script>
+   <script>
+      function startBarcodeScanner() {
+         const accessToken = "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJRWlJkS3JabXJmMEk3WkhXRUtqNWRLTEhQanFubWJFeV9iNmpSbHdya1drIn0.eyJleHAiOjE3MTk0OTYwOTUsImlhdCI6MTcxOTQ5NDg5NSwianRpIjoiMWM4MWE5NzYtNjJlMC00NTE5LTk3YjEtNWU5ZDRjZWJlMzNhIiwiaXNzIjoiaHR0cHM6Ly9hdXRoLmF1LWF3cy50aGV3aXNobGlzdC5pby9hdXRoL3JlYWxtcy90d2NNYWluIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjI2YTIyNTAyLWRhNzQtNDhkMC1iZWFiLTgzY2E0YTlmMDdlOSIsInR5cCI6IkJlYXJlciIsImF6cCI6InR3Yy1wb3MtY2xpZW50Iiwic2Vzc2lvbl9zdGF0ZSI6IjQzMjU2YmRkLTg4ZTYtNDY1NC1iMTBmLTA0ZjUyMmFjNTk4ZCIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9sb2NhbGhvc3QiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbInR3Yy1wb3MtdXNlciIsIm9mZmxpbmVfYWNjZXNzIiwidHdjLXN0b3JlLW93bmVyIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InRlbmFudGlkIHN0b3JlIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInRlbmFudGlkIjoidmlrdG9yaWEtd29vZHMiLCJuYW1lIjoiTWF0dCBIYW1wc2hpcmUiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJtYXR0QHRoZXdpc2hsaXN0LmlvIiwic3RvcmUiOiIyMDUiLCJnaXZlbl9uYW1lIjoiTWF0dCIsImZhbWlseV9uYW1lIjoiSGFtcHNoaXJlIiwiZW1haWwiOiJtYXR0QHRoZXdpc2hsaXN0LmlvIn0.NpMn7QlejIjfuqkxUzZfKPW1bJQNYrRzyIl2CHyeXaPsXI89Sa5HeluSzUckXvRoV6aYKCqFJAqQu9dPC2GTVsQiGzw51ynkzS971wnKC6UAaPuU71OBYKzVz09-gEj-L8k8lqPLIAGLI9VzB2ghSCjOB5nMveSP_j-nviZIgA7gHer4P4wwyGFg8YrOvoKLW-G1SfZCKpMD4O1H6tqrR2-jJcU2Zw_neYphYx-bUmDQ0hYdMO7rJjImRXK4dadcbuK1JHCP5syar3QhUF6c6TCrUP2CczwZMJbogdoXjoTaRbA052ietbhY39jAxSqfE92fhiBKgbSaMcNPQfe88A";
+         const tenant = "viktoria-woods";
+         const scanner = new BarcodeScanner(accessToken, tenant);
+         scanner
+            .scanBarcode()
+            .then((productInfo) => {
+               document.getElementById("show").style.display = "block";
+               document.getElementById("result").textContent = productInfo;
+               document.getElementById("product-result").textContent = JSON.stringify(productInfo);
+            })
+            .catch((error) => {
+               console.error("Error scanning barcode:", error);
+            });
+      }
+   </script>
+   <!-- <script>
+      function scanBarcode() {
+         const html5QRcode = new Html5Qrcode("reader");
+         const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+            if (decodedText) {
+               document.getElementById("show").style.display = "block";
+               document.getElementById("result").textContent = decodedText;
+               html5QRcode.stop();
+               fetch(`https://api.au-aws.thewishlist.io/services/productsvc/api/v2/products/variants/${decodedText}/byBarcode`, {
+                  method: "GET",
+                  headers: {
+                     "x-twc-tenant": "viktoria-woods",
+                     "authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJRWlJkS3JabXJmMEk3WkhXRUtqNWRLTEhQanFubWJFeV9iNmpSbHdya1drIn0.eyJleHAiOjE3MTk0OTY2NjAsImlhdCI6MTcxOTQ5NTQ2MCwianRpIjoiMjNlZTkzNDYtNGU0OC00MWQ0LWJjOTMtY2Y0NDhhMmM5ZjA4IiwiaXNzIjoiaHR0cHM6Ly9hdXRoLmF1LWF3cy50aGV3aXNobGlzdC5pby9hdXRoL3JlYWxtcy90d2NNYWluIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjI2YTIyNTAyLWRhNzQtNDhkMC1iZWFiLTgzY2E0YTlmMDdlOSIsInR5cCI6IkJlYXJlciIsImF6cCI6InR3Yy1wb3MtY2xpZW50Iiwic2Vzc2lvbl9zdGF0ZSI6IjQ4OWU1MWQ3LTNlOWUtNGFiMC04MjM5LTM5NGY3MDYyYWZlMiIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9sb2NhbGhvc3QiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbInR3Yy1wb3MtdXNlciIsIm9mZmxpbmVfYWNjZXNzIiwidHdjLXN0b3JlLW93bmVyIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InRlbmFudGlkIHN0b3JlIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInRlbmFudGlkIjoidmlrdG9yaWEtd29vZHMiLCJuYW1lIjoiTWF0dCBIYW1wc2hpcmUiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJtYXR0QHRoZXdpc2hsaXN0LmlvIiwic3RvcmUiOiIyMDUiLCJnaXZlbl9uYW1lIjoiTWF0dCIsImZhbWlseV9uYW1lIjoiSGFtcHNoaXJlIiwiZW1haWwiOiJtYXR0QHRoZXdpc2hsaXN0LmlvIn0.U4rbStrpNfsCrRuJejiu8bWuwg-C5LZsvrq8dvkymnHwXRl2_TTc95KzJX14YzCQk_Mdf3SsPkqJh_c2Ri-A7T-9v6R4Jy9Q5kcEBycBZNRLuXqh3VEtB5WWaokM28dAxgFS8FA6bLPT7cHBeFzYBMm4nxPP9ZW8E0AVBJ1CuqN8JhatjXFWSDfNBVXczJA3RmKSLE3mh_5xQkrWKbAX3wcSpKIXxLqAmUhgL0QFFnrkUDL5UtrgabyduR_Zez1KOyphjmSIdLv-mcCiUc54IX4BPvvyRgjzJj7CD_Aw5Gn7f-XMC_fgZu1nsOSh3elH3bj5DHSdsCC-85HtDWN9aQ"
+                  },
+               })
+                  .then((response) => response.json())
+                  .then((data) => {
+                     document.getElementById("product-result").textContent = JSON.stringify(data);
+                  })
+                  .catch((error) => {
+                     console.error("Error:", error);
+                  });
+            }
+         };
+
+         const config = {
+            fps: 10,
+            qrbox: { width: 200, height: 100 },
+         };
+         html5QRcode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+      }
+   </script> -->
 </html>
