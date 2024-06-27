@@ -16,9 +16,9 @@ class BarcodeScanner {
                this.html5QRcode.stop();
                fetch(`https://thewishlistco.stoplight.io/api/v2/products/variants/${decodedText}/byBarcode`, {
                   method: "GET",
-                  headers: {
-                     "X-TWC-Tenant": "incu-2",
-                  },
+                  // headers: {
+                  //    "X-TWC-Tenant": "incu-2",
+                  // },
                })
                   .then((response) => response.json())
                   .then((data) => {
@@ -29,19 +29,10 @@ class BarcodeScanner {
                   });
             }
          };
-
          this.html5QRcode.start({ facingMode: "environment" }, this.config, qrCodeSuccessCallback);
       });
    }
 }
 
-// Example usage:
-// const scanner = new BarcodeScanner();
-// scanner.scanBarcode()
-//    .then((productInfo) => {
-//       console.log("Product information:", productInfo);
-//    })
-//    .catch((error) => {
-//       console.error("Error scanning barcode:", error);
-//    });
-
+module.exports = BarcodeScanner;
+export default BarcodeScanner;
