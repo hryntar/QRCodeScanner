@@ -53,8 +53,9 @@
             .then((productInfo) => {
                console.log('productInfo: ', productInfo);
                document.getElementById("show").style.display = "block";
-               document.getElementById("result").textContent = productInfo;
-               document.getElementById("product-result").textContent = JSON.stringify(productInfo);
+               const el = document.getElementById("result");
+               el.textContent = productInfo.barcode;
+               document.getElementById("product-result").innerText = JSON.stringify(productInfo);
             })
             .catch((error) => {
                console.error("Error scanning barcode:", error);
