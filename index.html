@@ -3,10 +3,9 @@
    <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Document</title>
+      <title>Barcode Scanner</title>
    </head>
    <body>
-      <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
       <div style="text-align: center">
          <div id="reader" style="max-width: 100%; height: 100%"></div>
          <div id="show" style="display: none">
@@ -16,7 +15,7 @@
             <p id="product-result"></p>
          </div>
          <button
-            onclick="scanBarcode()"
+            onclick="startBarcodeScanner()"
             style="
                height: 40px;
                width: 100px;
@@ -42,35 +41,20 @@
             <p>Scan</p>
          </button>
       </div>
+      <script src="scanner.js"></script>
       <script>
-         function scanBarcode() {
-            const html5QRcode = new Html5Qrcode("reader");
-            const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-               if (decodedText) {
+         function startBarcodeScanner() {
+            const scanner = new BarcodeScanner();
+            scanner
+               .scanBarcode()
+               .then((productInfo) => {
                   document.getElementById("show").style.display = "block";
-                  document.getElementById("result").textContent = decodedText;
-                  html5QRcode.stop();
-                  fetch(`https://thewishlistco.stoplight.io/api/v2/products/variants/${decodedText}/byBarcode`, {
-                     method: "GET",
-                     headers: {
-                        "X-TWC-Tenant": "incu-2",
-                     },
-                  })
-                     .then((response) => response.json())
-                     .then((data) => {
-                        document.getElementById("product-result").textContent = JSON.parse(data);
-                     })
-                     .catch((error) => {
-                        console.error("Error:", error);
-                     });
-               }
-            };
-
-            const config = {
-               fps: 10,
-               qrbox: { width: 200, height: 100 },
-            };
-            html5QRcode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+                  document.getElementById("result").textContent = productInfo;
+                  document.getElementById("product-result").textContent = JSON.stringify(productInfo);
+               })
+               .catch((error) => {
+                  console.error("Error scanning barcode:", error);
+               });
          }
       </script>
    </body>
