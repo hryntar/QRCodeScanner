@@ -51,6 +51,7 @@
          scanner
             .scanBarcode()
             .then((productInfo) => {
+               console.log('productInfo: ', productInfo);
                document.getElementById("show").style.display = "block";
                document.getElementById("result").textContent = productInfo;
                document.getElementById("product-result").textContent = JSON.stringify(productInfo);
