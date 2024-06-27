@@ -58,7 +58,7 @@
                   })
                      .then((response) => response.json())
                      .then((data) => {
-                        document.getElementById("product-result").textContent = data;
+                        document.getElementById("product-result").textContent = JSON.parse(data);
                      })
                      .catch((error) => {
                         console.error("Error:", error);
