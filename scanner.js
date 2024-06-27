@@ -25,7 +25,7 @@ class BarcodeScanner {
                })
                   .then((response) => response.json())
                   .then((data) => {
-                     resolve(JSON.parse(data));
+                     resolve(data);
                   })
                   .catch((error) => {
                      reject(error);
