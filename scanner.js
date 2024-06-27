@@ -12,24 +12,23 @@ class BarcodeScanner {
    }
 
    async scanBarcode() {
-      return new Promise((resolve, reject) => {
-         const qrCodeSuccessCallback = (decodedText) => {
+      return new Promise(async (resolve, reject) => {
+         const qrCodeSuccessCallback = async (decodedText) => {
             if (decodedText) {
                this.html5QRcode.stop();
-               fetch(`https://api.au-aws.thewishlist.io/services/productsvc/api/v2/products/variants/${decodedText}/byBarcode`, {
-                  method: "GET",
-                  headers: {
-                     "x-twc-tenant": this.tenant,
-                     "authorization": `Bearer ${this.accessToken}`,
-                  },
-               })
-                  .then((response) => response.json())
-                  .then((data) => {
-                     resolve(data);
-                  })
-                  .catch((error) => {
-                     reject(error);
+               try {
+                  const response = await fetch(`https://api.au-aws.thewishlist.io/services/productsvc/api/v2/products/variants/${decodedText}/byBarcode`, {
+                     method: "GET",
+                     headers: {
+                        "x-twc-tenant": this.tenant,
+                        "authorization": `Bearer ${this.accessToken}`,
+                     },
                   });
+                  const data = await response.json();
+                  resolve(data);
+               } catch (error) {
+                  reject(error);
+               }
             }
          };
          this.html5QRcode.start({ facingMode: "environment" }, this.config, qrCodeSuccessCallback);
