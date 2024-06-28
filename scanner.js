@@ -33,8 +33,8 @@ class BarcodeScanner {
                   });
                   const data = await response.json();
                   resolve(data);
-                  // document.getElementById("scan-result").style.display = "block";
-                  const productResult = document.getElementById("product-result");
+                  const productResult = document.getElementById("scan-result");
+                  console.log(productResult);
                   productResult.innerHTML = `
                   <div style="margin: auto; text-transform: uppercase; letter-spacing: 1px; text-align: left; max-width: 280px;">
                       <img src="${data.imageLink}" alt="Product image" style="max-width: 100%; max-height: 400px;">
@@ -43,6 +43,7 @@ class BarcodeScanner {
                       <button style="text-transform: uppercase; letter-spacing: 1px; width: 100%; background-color: #000; color: #fff; padding: 10px 20px;">Add to cart</button>
                   </div>
               `;
+              console.log(productResult);
                } catch (error) {
                   reject(error);
                }
