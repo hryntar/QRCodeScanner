@@ -11,14 +11,27 @@
             box-sizing: border-box;
             font-family: Arial, sans-serif;
          } */
+         #reader-wrapper {
+            position: absolute;
+            display: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            /* height: 100%; */
+            /* display: flex;
+            justify-content: center;
+            align-items: center; */
+         }
          #reader {
-            max-width: 100%;
             height: 100%;
+            width: 100%;
+            max-width: 100%;
          }
          #show {
             display: none;
          }
          #init-scan-btn {
+            margin: 50px auto;
             height: 40px;
             width: 100px;
             display: flex;
@@ -35,13 +48,20 @@
    </head>
    <body>
       <div style="text-align: center">
-         <div id="reader"></div>
          <div id="show">
             <h4>Scanned Result:</h4>
             <p id="result"></p>
             <h3>Product:</h3>
-            <p id="product-result"></p>
+            <article id="product-result">
+               <!-- <div>
+                  <img src="{productInfo.imageLink}" alt="" />
+                  <p>${productInfo.title}</p>
+                  <p>{productInfo.price.price}</p>
+                  <button>Add to wishlist</button>
+               </div> -->
+            </article>
          </div>
+         <div id="reader-wrapper"><div id="reader"></div></div>
          <button id="init-scan-btn" onclick="startBarcodeScanner()">
             <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path
@@ -59,7 +79,7 @@
    <script>
       async function startBarcodeScanner() {
          const accessToken =
-            "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJRWlJkS3JabXJmMEk3WkhXRUtqNWRLTEhQanFubWJFeV9iNmpSbHdya1drIn0.eyJleHAiOjE3MTk1OTU5MjAsImlhdCI6MTcxOTU1MjcyMCwianRpIjoiNWJhZWNmOTMtYjM5Mi00MjdiLTk1Y2ItNDI5YTAzODI2Y2M4IiwiaXNzIjoiaHR0cHM6Ly9hdXRoLmF1LWF3cy50aGV3aXNobGlzdC5pby9hdXRoL3JlYWxtcy90d2NNYWluIiwiYXVkIjpbInJlYWxtLW1hbmFnZW1lbnQiLCJhY2NvdW50Il0sInN1YiI6IjJkMWI5ZmE1LThjYmQtNDRlYi1hM2QxLTkxMDZhYTVhZDM0ZiIsInR5cCI6IkJlYXJlciIsImF6cCI6InR3Yy1hcGktY2xpZW50IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwczovL2xvY2FsaG9zdCJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7InJlYWxtLW1hbmFnZW1lbnQiOnsicm9sZXMiOlsibWFuYWdlLXVzZXJzIiwidmlldy1jbGllbnRzIiwibWFuYWdlLWNsaWVudHMiLCJxdWVyeS1jbGllbnRzIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJjbGllbnRIb3N0IjoiMTkyLjE2OC4xMTQuMTAiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImNsaWVudElkIjoidHdjLWFwaS1jbGllbnQiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzZXJ2aWNlLWFjY291bnQtdHdjLWFwaS1jbGllbnQiLCJjbGllbnRBZGRyZXNzIjoiMTkyLjE2OC4xMTQuMTAifQ.gLSm8U1LP0PB329J7cPrfeyyR7R0n86fL8rCpXNi7WkxGGR6rQVWifWMrN0plIk1aq7VsY9-HkFx9JVQFPqPbp01G4GLNetschk12aPi4rPOCLN2gOph1auQROJF86qsp2bQyMPP4aGySIYBHV_CNlXwFRbIWyMWb06yTrYYoNZWpG_pmjWeD-tuzMAlY1yOhblvFNOZZgE4_jMjCwZ5wrXCe9JeOywMyBDUNaP9L9kYb3K0wgPp5Rzbv4blU47uzM5IpBH0BIyDvx6p9fui2xCNOY03tCIttAGaCGOwiR4xEtWPE8_cQbBcz0qlXhVyuPuNUCfnLBHNA4zVYcb9BA";
+            "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJRWlJkS3JabXJmMEk3WkhXRUtqNWRLTEhQanFubWJFeV9iNmpSbHdya1drIn0.eyJleHAiOjE3MTk1NTU5MTksImlhdCI6MTcxOTU1NDcxOSwianRpIjoiYmY2MmQ0ZDEtYjc5Yi00NGI2LTkwMGUtOTg1MDYwZmU3NDk4IiwiaXNzIjoiaHR0cHM6Ly9hdXRoLmF1LWF3cy50aGV3aXNobGlzdC5pby9hdXRoL3JlYWxtcy90d2NNYWluIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjI2YTIyNTAyLWRhNzQtNDhkMC1iZWFiLTgzY2E0YTlmMDdlOSIsInR5cCI6IkJlYXJlciIsImF6cCI6InR3Yy1wb3MtY2xpZW50Iiwic2Vzc2lvbl9zdGF0ZSI6IjM1OGFmZmU1LTUzZjYtNGI3Ni05OTQyLTE0MGE2ZmNjZmFiNSIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9sb2NhbGhvc3QiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbInR3Yy1wb3MtdXNlciIsIm9mZmxpbmVfYWNjZXNzIiwidHdjLXN0b3JlLW93bmVyIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InRlbmFudGlkIHN0b3JlIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInRlbmFudGlkIjoidmlrdG9yaWEtd29vZHMiLCJuYW1lIjoiTWF0dCBIYW1wc2hpcmUiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJtYXR0QHRoZXdpc2hsaXN0LmlvIiwic3RvcmUiOiIyMDUiLCJnaXZlbl9uYW1lIjoiTWF0dCIsImZhbWlseV9uYW1lIjoiSGFtcHNoaXJlIiwiZW1haWwiOiJtYXR0QHRoZXdpc2hsaXN0LmlvIn0.VxfbdpHZsq0Wu4p_GgzMW4iIazf7fW38aqEb7vYXsucoKxUMktMkegrSi_MesJkzoeaP2mKE4951aAI1hGHbhrRa08MUy8dIwtBaVF6KXPcxDdm4N9Wgs8c4rBQnqkx-5VlFIZMZKy904awN02iIkiMlPXyW51Q4L_ltrK_69e5OfsaT6NMU-XLwBqN8CMOtdPSOzcerfEwJ9j9yJoQl6DO8ETXr3xxO9GoI6lKYSojmJ4u_ddADIMkvh7lPXoSve32t85AXMR-CdO3ywVIGWNAmytmh4xXctNcXWXlhxNCj--OZfgebDqIhC1qYXhrvyM6PlhbBpD5YlWzPyFnORQ";
          const tenant = "viktoria-woods";
          const scanner = new BarcodeScanner(accessToken, tenant);
          try {
@@ -68,7 +88,17 @@
             document.getElementById("show").style.display = "block";
             const el = document.getElementById("result");
             el.textContent = productInfo.barcode;
-            document.getElementById("product-result").innerText = JSON.stringify(productInfo);
+            const productResult = document.getElementById("product-result");
+            const productDiv = document.createElement("div");
+            const productImage = document.createElement("img").src(productInfo.imageLink).alt("product image");
+            const productTitle = document.createElement("h3").textContent(productInfo.title);
+            const productPrice = document.createElement("p").textContent(productInfo.price.price);
+            const addToWishlistButton = document.createElement("button").textContent("Add to wishlist");
+            productDiv.appendChild(productImage);
+            productDiv.appendChild(productTitle);
+            productDiv.appendChild(productPrice);
+            productDiv.appendChild(addToWishlistButton);
+            productResult.appendChild(productDiv);
          } catch (error) {
             console.error("Error scanning barcode:", error);
          }

@@ -12,6 +12,7 @@ class BarcodeScanner {
    }
 
    async scanBarcode() {
+      document.getElementById("reader-wrapper").style.display = "block";
       return new Promise(async (resolve, reject) => {
          const qrCodeSuccessCallback = async (decodedText) => {
             if (decodedText) {
