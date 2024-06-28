@@ -27,6 +27,44 @@ class BarcodeScanner {
                   });
                   const data = await response.json();
                   resolve(data);
+                  document.getElementById("show").style.display = "block";
+                  const productResult = document.getElementById("product-result");
+                  const productDiv = document.createElement("div");
+                  productDiv.style.margin = "auto";
+                  productDiv.style.textTransform = "uppercase";
+                  productDiv.style.letterSpacing = "1px";
+                  productDiv.style.textAlign = "left";
+                  productDiv.style.maxWidth = "280px";
+
+                  const productImage = document.createElement("img");
+                  productImage.src = data.imageLink;
+                  productImage.alt = "Product image";
+                  productImage.style.maxWidth = "100%";
+                  productImage.style.maxHeight = "400px";
+
+                  const productTitle = document.createElement("h3");
+                  productTitle.textContent = data.title;
+
+                  const productPrice = document.createElement("p");
+                  productPrice.textContent = data.price;
+                  productPrice.style.marginTop = "-13px";
+                  productPrice.style.fontSize = "14px";
+                  productPrice.style.color = "#333";
+
+                  const addToCartButton = document.createElement("button");
+                  addToCartButton.textContent = "Add to cart";
+                  addToCartButton.style.textTransform = "uppercase";
+                  addToCartButton.style.letterSpacing = "1px";
+                  addToCartButton.style.width = "100%";
+                  addToCartButton.style.backgroundColor = "#000";
+                  addToCartButton.style.color = "#fff";
+                  addToCartButton.style.padding = "10px 20px";
+
+                  productDiv.appendChild(productImage);
+                  productDiv.appendChild(productTitle);
+                  productDiv.appendChild(productPrice);
+                  productDiv.appendChild(addToCartButton);
+                  productResult.appendChild(productDiv);
                } catch (error) {
                   reject(error);
                }

@@ -5,22 +5,12 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Document</title>
       <style>
-         /* body {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-         } */
          #reader-wrapper {
             position: absolute;
             display: none;
             top: 0;
             left: 0;
             width: 100%;
-            /* height: 100%; */
-            /* display: flex;
-            justify-content: center;
-            align-items: center; */
          }
          #reader {
             height: 100%;
@@ -28,40 +18,52 @@
             max-width: 100%;
          }
          #show {
-            display: none;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
          }
          #init-scan-btn {
-            margin: 50px auto;
+            margin: 20px auto;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             height: 40px;
             width: 100px;
             display: flex;
             align-items: center;
             font-size: 14px;
             column-gap: 6px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
             background-color: black;
             color: white;
             cursor: pointer;
+         }
+         #product-result-item img {
+            max-width: 100%;
+            max-height: 400px;
+         }
+         #product-result-item {
+            margin: auto;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: left;
+            max-width: 280px;
+         }
+         #product-result-item p {
+            margin-top: -13px;
+            font-size: 14px;
+            color: #333;
+         }
+         #product-result-item button {
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 100%;
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
          }
       </style>
    </head>
    <body>
       <div style="text-align: center">
-         <div id="show">
-            <h4>Scanned Result:</h4>
-            <p id="result"></p>
-            <h3>Product:</h3>
-            <article id="product-result">
-               <!-- <div>
-                  <img src="{productInfo.imageLink}" alt="" />
-                  <p>${productInfo.title}</p>
-                  <p>{productInfo.price.price}</p>
-                  <button>Add to wishlist</button>
-               </div> -->
-            </article>
-         </div>
-         <div id="reader-wrapper"><div id="reader"></div></div>
          <button id="init-scan-btn" onclick="startBarcodeScanner()">
             <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path
@@ -73,42 +75,71 @@
             </svg>
             <p>Scan</p>
          </button>
+         <div id="show">
+            <h3>Product:</h3>
+            <article id="product-result">
+               <!-- <div id="product-result-item">
+                  <img
+                     src="https://cdn.shopify.com/s/files/1/0026/0479/3911/products/L228170567_DARKBLUE_1_281ebc5f-9f6a-40ad-94a7-2864cb170acd.jpg?v=1670281311"
+                     alt="Product image"
+                  />
+                  <h3>DARK BLUE / 3+</h3>
+                  <p>$113.00</p>
+                  <button>Add to cart</button>
+               </div> -->
+            </article>
+         </div>
+         <div id="reader-wrapper"><div id="reader"></div></div>
       </div>
    </body>
    <script src="scanner.js"></script>
    <script>
       async function startBarcodeScanner() {
          const accessToken =
-            "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJRWlJkS3JabXJmMEk3WkhXRUtqNWRLTEhQanFubWJFeV9iNmpSbHdya1drIn0.eyJleHAiOjE3MTk1NTU5MTksImlhdCI6MTcxOTU1NDcxOSwianRpIjoiYmY2MmQ0ZDEtYjc5Yi00NGI2LTkwMGUtOTg1MDYwZmU3NDk4IiwiaXNzIjoiaHR0cHM6Ly9hdXRoLmF1LWF3cy50aGV3aXNobGlzdC5pby9hdXRoL3JlYWxtcy90d2NNYWluIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjI2YTIyNTAyLWRhNzQtNDhkMC1iZWFiLTgzY2E0YTlmMDdlOSIsInR5cCI6IkJlYXJlciIsImF6cCI6InR3Yy1wb3MtY2xpZW50Iiwic2Vzc2lvbl9zdGF0ZSI6IjM1OGFmZmU1LTUzZjYtNGI3Ni05OTQyLTE0MGE2ZmNjZmFiNSIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9sb2NhbGhvc3QiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbInR3Yy1wb3MtdXNlciIsIm9mZmxpbmVfYWNjZXNzIiwidHdjLXN0b3JlLW93bmVyIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InRlbmFudGlkIHN0b3JlIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInRlbmFudGlkIjoidmlrdG9yaWEtd29vZHMiLCJuYW1lIjoiTWF0dCBIYW1wc2hpcmUiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJtYXR0QHRoZXdpc2hsaXN0LmlvIiwic3RvcmUiOiIyMDUiLCJnaXZlbl9uYW1lIjoiTWF0dCIsImZhbWlseV9uYW1lIjoiSGFtcHNoaXJlIiwiZW1haWwiOiJtYXR0QHRoZXdpc2hsaXN0LmlvIn0.VxfbdpHZsq0Wu4p_GgzMW4iIazf7fW38aqEb7vYXsucoKxUMktMkegrSi_MesJkzoeaP2mKE4951aAI1hGHbhrRa08MUy8dIwtBaVF6KXPcxDdm4N9Wgs8c4rBQnqkx-5VlFIZMZKy904awN02iIkiMlPXyW51Q4L_ltrK_69e5OfsaT6NMU-XLwBqN8CMOtdPSOzcerfEwJ9j9yJoQl6DO8ETXr3xxO9GoI6lKYSojmJ4u_ddADIMkvh7lPXoSve32t85AXMR-CdO3ywVIGWNAmytmh4xXctNcXWXlhxNCj--OZfgebDqIhC1qYXhrvyM6PlhbBpD5YlWzPyFnORQ";
+            "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJRWlJkS3JabXJmMEk3WkhXRUtqNWRLTEhQanFubWJFeV9iNmpSbHdya1drIn0.eyJleHAiOjE3MTk1NTgxMzMsImlhdCI6MTcxOTU1NjkzMywianRpIjoiODRjMWMzMzEtZmNiNy00M2Y5LTg2NDMtYWI3M2FmY2E0ODEzIiwiaXNzIjoiaHR0cHM6Ly9hdXRoLmF1LWF3cy50aGV3aXNobGlzdC5pby9hdXRoL3JlYWxtcy90d2NNYWluIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjI2YTIyNTAyLWRhNzQtNDhkMC1iZWFiLTgzY2E0YTlmMDdlOSIsInR5cCI6IkJlYXJlciIsImF6cCI6InR3Yy1wb3MtY2xpZW50Iiwic2Vzc2lvbl9zdGF0ZSI6IjUyMmNjNmFmLTc0MWUtNDZhNi1hZDE2LWVlYzJmYWYxMDhkYiIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9sb2NhbGhvc3QiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbInR3Yy1wb3MtdXNlciIsIm9mZmxpbmVfYWNjZXNzIiwidHdjLXN0b3JlLW93bmVyIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InRlbmFudGlkIHN0b3JlIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInRlbmFudGlkIjoidmlrdG9yaWEtd29vZHMiLCJuYW1lIjoiTWF0dCBIYW1wc2hpcmUiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJtYXR0QHRoZXdpc2hsaXN0LmlvIiwic3RvcmUiOiIyMDUiLCJnaXZlbl9uYW1lIjoiTWF0dCIsImZhbWlseV9uYW1lIjoiSGFtcHNoaXJlIiwiZW1haWwiOiJtYXR0QHRoZXdpc2hsaXN0LmlvIn0.QjVQ2n-8xItovNnrrPO7k2gC42UMy2mbdL2p5BLqOPuhAChlEwRJ3TidrusAfYBUiN-brki6C5ims7aKT69UzjFoEdeC8wCzjUYhXVUDqTydmL-X_5a-QqXETxL45PsZUebxpL-kDTiQSh7Lr4qXH2qDI2VLxmfMA-FjT3JM9Xoi1rRPOpolx3nviG6Ak4hJUZfMy9H7kLDBzX7gJ-m0a0x28jQHRaFLraA3GAaDfyQLSqkDakg40klk1fcgJrtizywXWLTFnUBqKZ_1UAPtaJlLIfmfQMD1SIVF-ZQytWMVdnWbHdXwlTRmB_9ub5hCoPbuzHNSCbCGf1gV6pcK5w";
          const tenant = "viktoria-woods";
          const scanner = new BarcodeScanner(accessToken, tenant);
          try {
             const productInfo = await scanner.scanBarcode();
             console.log("productInfo: ", productInfo);
-            document.getElementById("show").style.display = "block";
-            const el = document.getElementById("result");
-            el.textContent = productInfo.barcode;
-            const productResult = document.getElementById("product-result");
-            const productDiv = document.createElement("div");
+            // document.getElementById("show").style.display = "block";
+            // const productResult = document.getElementById("product-result");
+            // const productDiv = document.createElement("div");
+            // productDiv.style.margin = "auto";
+            // productDiv.style.textTransform = "uppercase";
+            // productDiv.style.letterSpacing = "1px";
+            // productDiv.style.textAlign = "left";
+            // productDiv.style.maxWidth = "280px";
 
-            const productImage = document.createElement("img");
-            productImage.src = productInfo.imageLink;
-            productImage.alt = "product image";
+            // const productImage = document.createElement("img");
+            // productImage.src = productInfo.imageLink;
+            // productImage.alt = "Product image";
+            // productImage.style.maxWidth = "100%";
+            // productImage.style.maxHeight = "400px";
 
-            const productTitle = document.createElement("h3");
-            productTitle.textContent = productInfo.title;
+            // const productTitle = document.createElement("h3");
+            // productTitle.textContent = productInfo.title;
 
-            const productPrice = document.createElement("p");
-            productPrice.textContent = productInfo.price.price;
+            // const productPrice = document.createElement("p");
+            // productPrice.textContent = productInfo.price;
+            // productPrice.style.marginTop = "-13px";
+            // productPrice.style.fontSize = "14px";
+            // productPrice.style.color = "#333";
 
-            const addToWishlistButton = document.createElement("button");
-            addToWishlistButton.textContent = "Add to wishlist";
+            // const addToCartButton = document.createElement("button");
+            // addToCartButton.textContent = "Add to cart";
+            // addToCartButton.style.textTransform = "uppercase";
+            // addToCartButton.style.letterSpacing = "1px";
+            // addToCartButton.style.width = "100%";
+            // addToCartButton.style.backgroundColor = "#000";
+            // addToCartButton.style.color = "#fff";
+            // addToCartButton.style.padding = "10px 20px";
 
-            productDiv.appendChild(productImage);
-            productDiv.appendChild(productTitle);
-            productDiv.appendChild(productPrice);
-            productDiv.appendChild(addToWishlistButton);
-            productResult.appendChild(productDiv);
+            // productDiv.appendChild(productImage);
+            // productDiv.appendChild(productTitle);
+            // productDiv.appendChild(productPrice);
+            // productDiv.appendChild(addToCartButton);
+            // productResult.appendChild(productDiv);
          } catch (error) {
             console.error("Error scanning barcode:", error);
          }
