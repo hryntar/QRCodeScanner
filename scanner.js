@@ -32,7 +32,6 @@ class BarcodeScanner {
                      },
                   });
                   const data = await response.json();
-                  resolve(data);
                   const productResult = document.getElementById("scan-result");
                   console.log(productResult);
                   productResult.innerHTML = `
@@ -44,6 +43,7 @@ class BarcodeScanner {
                   </div>
               `;
               console.log(productResult);
+              resolve(data);
                } catch (error) {
                   reject(error);
                }
