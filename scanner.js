@@ -33,7 +33,9 @@ class BarcodeScanner {
                   });
                   const data = await response.json();
                   const productResult = document.getElementById("reader-result");
-                  console.log(productResult);
+                  
+                  productResult.style.textTransform = "uppercase";
+                  productResult.style.letterSpacing = "1px";
                   productResult.innerHTML = `
                   <div style="margin: auto; text-transform: uppercase; letter-spacing: 1px; text-align: left; max-width: 280px;">
                       <img src="${data.imageLink}" alt="Product image" style="max-width: 100%; max-height: 400px;">
