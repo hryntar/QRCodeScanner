@@ -3,22 +3,9 @@
    <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Document</title>
+      <title>Barcde Scanner</title>
       <style>
-         /* #barcode-reader {
-            position: absolute;
-            display: none;
-            top: 0;
-            left: 0;
-            width: 100%;
-         }
-         #reader {
-            height: 100%;
-            width: 100%;
-            max-width: 100%;
-         } */
-         #scan-result {
-            display: block;
+         #reader-result {
             text-transform: uppercase;
             letter-spacing: 1px;
          }
@@ -36,66 +23,33 @@
             color: white;
             cursor: pointer;
          }
-         #product-result-item img {
-            max-width: 100%;
-            max-height: 400px;
-         }
-         #product-result-item {
-            margin: auto;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-align: left;
-            max-width: 280px;
-         }
-         #product-result-item p {
-            margin-top: -13px;
-            font-size: 14px;
-            color: #333;
-         }
-         #product-result-item button {
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            width: 100%;
-            background-color: #000;
-            color: #fff;
-            padding: 10px 20px;
-         }
       </style>
    </head>
    <body>
-      <div style="text-align: center">
-         <button id="init-scan">
-            <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-               <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M6.75 4.5H3V8.25H4.5V6H6.75V4.5ZM6.75 8.25V15.75H8.25V8.25H6.75ZM9.75 15.75V8.25H11.25V15.75H9.75ZM12.75 8.25V15.75H14.25V8.25H12.75ZM15.75 15.75V8.25H17.25V15.75H15.75ZM17.25 19.5H21V15.75H19.5V18H17.25V19.5ZM3 19.5V15.75H4.5L4.5 18H6.75L6.75 19.5H3ZM21 8.25V4.5H17.25V6H19.5V8.25L21 8.25Z"
-                  fill="#fff"
-               />
-            </svg>
-            <p>Scan</p>
-         </button>
-         <article id="scan-result">
-         </article>
-         <div id="reader-wrapper">
-            <div id="reader"></div>
-         </div>
+      <button id="reader-init">
+         <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+               fill-rule="evenodd"
+               clip-rule="evenodd"
+               d="M6.75 4.5H3V8.25H4.5V6H6.75V4.5ZM6.75 8.25V15.75H8.25V8.25H6.75ZM9.75 15.75V8.25H11.25V15.75H9.75ZM12.75 8.25V15.75H14.25V8.25H12.75ZM15.75 15.75V8.25H17.25V15.75H15.75ZM17.25 19.5H21V15.75H19.5V18H17.25V19.5ZM3 19.5V15.75H4.5L4.5 18H6.75L6.75 19.5H3ZM21 8.25V4.5H17.25V6H19.5V8.25L21 8.25Z"
+               fill="#fff"
+            />
+         </svg>
+         <p>Scan</p>
+      </button>
+      <div id="reader-result"></div>
+      <div id="reader-wrapper">
+         <div id="reader"></div>
       </div>
    </body>
    <script src="scanner.js"></script>
    <script>
-         const accessToken =
-            "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJRWlJkS3JabXJmMEk3WkhXRUtqNWRLTEhQanFubWJFeV9iNmpSbHdya1drIn0.eyJleHAiOjE3MTk1NjIwNzcsImlhdCI6MTcxOTU2MDg3NywianRpIjoiNzk5NmQ3MDEtMjI1My00NTM5LThkNWQtNzg4ZThkZTk5YWE0IiwiaXNzIjoiaHR0cHM6Ly9hdXRoLmF1LWF3cy50aGV3aXNobGlzdC5pby9hdXRoL3JlYWxtcy90d2NNYWluIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjI2YTIyNTAyLWRhNzQtNDhkMC1iZWFiLTgzY2E0YTlmMDdlOSIsInR5cCI6IkJlYXJlciIsImF6cCI6InR3Yy1wb3MtY2xpZW50Iiwic2Vzc2lvbl9zdGF0ZSI6IjU5ZWEwZjJkLWU2ZjYtNGVmYS05OGQ1LWZiMjI1NTUyNDgxYSIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9sb2NhbGhvc3QiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbInR3Yy1wb3MtdXNlciIsIm9mZmxpbmVfYWNjZXNzIiwidHdjLXN0b3JlLW93bmVyIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InRlbmFudGlkIHN0b3JlIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInRlbmFudGlkIjoidmlrdG9yaWEtd29vZHMiLCJuYW1lIjoiTWF0dCBIYW1wc2hpcmUiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJtYXR0QHRoZXdpc2hsaXN0LmlvIiwic3RvcmUiOiIyMDUiLCJnaXZlbl9uYW1lIjoiTWF0dCIsImZhbWlseV9uYW1lIjoiSGFtcHNoaXJlIiwiZW1haWwiOiJtYXR0QHRoZXdpc2hsaXN0LmlvIn0.BS4AkBZRAm7-9_Uria4OUPMvQ6G8h_uBJmQQosExG0xVYytJPFPeVcfZDM9Ld4c1gE0hANSUrNND7dmQZRQVuoAVekcNgk9b4jKawieT1DdLnVHT2zDwg0Rb9OmFnWi0O6WwQAkqJsNt47SFDg-cDYMsJMLwKtcXEHhgyxTpo7anVSE-faWXU-_bjSsuXt3vjMGCHzViwOHQ8jquvOzLrQWCdeuQImxVeXs1xyjxVS9tPmP2Oz5_qdohdWyL7fGzUt7lo2kOby7a379KVpNT0T9_5g2W53-Esnvi7CMwr2l7f-xQSUnGfE__szaLLZga5Zdzao-lK4LMv4AX4RHRtg";
-         const tenant = "viktoria-woods";
-         const scanner = new BarcodeScanner(accessToken, tenant);
-         document.getElementById("init-scan").addEventListener("click", async () => {
-           scanner.scanBarcode();
-         });
-         // try {
-         //    const productInfo = await scanner.scanBarcode();
-         //    console.log("productInfo: ", productInfo);
-         // } catch (error) {
-         //    console.error("Error scanning barcode:", error);
-         // }
+      const accessToken =
+         "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJRWlJkS3JabXJmMEk3WkhXRUtqNWRLTEhQanFubWJFeV9iNmpSbHdya1drIn0.eyJleHAiOjE3MTk1NjIwNzcsImlhdCI6MTcxOTU2MDg3NywianRpIjoiNzk5NmQ3MDEtMjI1My00NTM5LThkNWQtNzg4ZThkZTk5YWE0IiwiaXNzIjoiaHR0cHM6Ly9hdXRoLmF1LWF3cy50aGV3aXNobGlzdC5pby9hdXRoL3JlYWxtcy90d2NNYWluIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjI2YTIyNTAyLWRhNzQtNDhkMC1iZWFiLTgzY2E0YTlmMDdlOSIsInR5cCI6IkJlYXJlciIsImF6cCI6InR3Yy1wb3MtY2xpZW50Iiwic2Vzc2lvbl9zdGF0ZSI6IjU5ZWEwZjJkLWU2ZjYtNGVmYS05OGQ1LWZiMjI1NTUyNDgxYSIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9sb2NhbGhvc3QiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbInR3Yy1wb3MtdXNlciIsIm9mZmxpbmVfYWNjZXNzIiwidHdjLXN0b3JlLW93bmVyIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InRlbmFudGlkIHN0b3JlIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInRlbmFudGlkIjoidmlrdG9yaWEtd29vZHMiLCJuYW1lIjoiTWF0dCBIYW1wc2hpcmUiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJtYXR0QHRoZXdpc2hsaXN0LmlvIiwic3RvcmUiOiIyMDUiLCJnaXZlbl9uYW1lIjoiTWF0dCIsImZhbWlseV9uYW1lIjoiSGFtcHNoaXJlIiwiZW1haWwiOiJtYXR0QHRoZXdpc2hsaXN0LmlvIn0.BS4AkBZRAm7-9_Uria4OUPMvQ6G8h_uBJmQQosExG0xVYytJPFPeVcfZDM9Ld4c1gE0hANSUrNND7dmQZRQVuoAVekcNgk9b4jKawieT1DdLnVHT2zDwg0Rb9OmFnWi0O6WwQAkqJsNt47SFDg-cDYMsJMLwKtcXEHhgyxTpo7anVSE-faWXU-_bjSsuXt3vjMGCHzViwOHQ8jquvOzLrQWCdeuQImxVeXs1xyjxVS9tPmP2Oz5_qdohdWyL7fGzUt7lo2kOby7a379KVpNT0T9_5g2W53-Esnvi7CMwr2l7f-xQSUnGfE__szaLLZga5Zdzao-lK4LMv4AX4RHRtg";
+      const tenant = "viktoria-woods";
+      const scanner = new BarcodeScanner(accessToken, tenant);
+      document.getElementById("reader-init").addEventListener("click", async () => {
+         scanner.scanBarcode();
+      });
    </script>
 </html>
