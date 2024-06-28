@@ -9,19 +9,28 @@ class BarcodeScanner {
       };
       this.accessToken = accessToken;
       this.tenant = tenant;
-   }
-
-   async scanBarcode() {
-      const barcodeReader = document.getElementById("barcode-reader").style = { 
+      const barcodeReader = document.getElementById("reader-wrapper").style = { 
          width: "100%",
          position: "absolute",
          top: "0",
          left: "0",
          display: "none",
       };
-      barcodeReader.appendChild(document.createElement("div")).id = "reader";
+      // barcodeReader.appendChild(document.createElement("div")).id = "reader";
       console.log('123');
-      // document.getElementById("barcode-reader").style.display = "block";
+   }
+
+   async scanBarcode() {
+      // const barcodeReader = document.getElementById("reader-wrapper").style = { 
+      //    width: "100%",
+      //    position: "absolute",
+      //    top: "0",
+      //    left: "0",
+      //    display: "none",
+      // };
+      // barcodeReader.appendChild(document.createElement("div")).id = "reader";
+      console.log('123');
+      document.getElementById("barcode-reader").style.display = "block";
       return new Promise(async (resolve, reject) => {
          const qrCodeSuccessCallback = async (decodedText) => {
             if (decodedText) {
