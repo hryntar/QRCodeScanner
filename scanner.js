@@ -9,7 +9,7 @@ class BarcodeScanner {
       };
       this.accessToken = accessToken;
       this.tenant = tenant;
-      const barcodeReader = document.getElementById("reader-wrapper").style = { 
+      document.getElementById("reader-wrapper").style = { 
          width: "100%",
          position: "absolute",
          top: "0",
@@ -30,7 +30,7 @@ class BarcodeScanner {
       // };
       // barcodeReader.appendChild(document.createElement("div")).id = "reader";
       console.log('123');
-      document.getElementById("barcode-reader").style.display = "block";
+      document.getElementById("reader-wrapper").style.display = "block";
       return new Promise(async (resolve, reject) => {
          const qrCodeSuccessCallback = async (decodedText) => {
             if (decodedText) {
