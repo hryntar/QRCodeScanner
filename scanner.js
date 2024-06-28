@@ -46,7 +46,7 @@ class BarcodeScanner {
                   productTitle.textContent = data.title;
 
                   const productPrice = document.createElement("p");
-                  productPrice.textContent = data.price;
+                  productPrice.textContent = data.price.price;
                   productPrice.style.marginTop = "-13px";
                   productPrice.style.fontSize = "14px";
                   productPrice.style.color = "#333";
