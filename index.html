@@ -90,10 +90,20 @@
             el.textContent = productInfo.barcode;
             const productResult = document.getElementById("product-result");
             const productDiv = document.createElement("div");
-            const productImage = document.createElement("img").src(productInfo.imageLink).alt("product image");
-            const productTitle = document.createElement("h3").textContent(productInfo.title);
-            const productPrice = document.createElement("p").textContent(productInfo.price.price);
-            const addToWishlistButton = document.createElement("button").textContent("Add to wishlist");
+
+            const productImage = document.createElement("img");
+            productImage.src = productInfo.imageLink;
+            productImage.alt = "product image";
+
+            const productTitle = document.createElement("h3");
+            productTitle.textContent = productInfo.title;
+
+            const productPrice = document.createElement("p");
+            productPrice.textContent = productInfo.price.price;
+
+            const addToWishlistButton = document.createElement("button");
+            addToWishlistButton.textContent = "Add to wishlist";
+
             productDiv.appendChild(productImage);
             productDiv.appendChild(productTitle);
             productDiv.appendChild(productPrice);
