@@ -4,32 +4,45 @@
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Document</title>
+      <style>
+         /* body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+         } */
+         #reader {
+            max-width: 100%;
+            height: 100%;
+         }
+         #show {
+            display: none;
+         }
+         #init-scan-btn {
+            height: 40px;
+            width: 100px;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            column-gap: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background-color: black;
+            color: white;
+            cursor: pointer;
+         }
+      </style>
    </head>
    <body>
       <div style="text-align: center">
-         <div id="reader" style="max-width: 100%; height: 100%"></div>
-         <div id="show" style="display: none">
+         <div id="reader"></div>
+         <div id="show">
             <h4>Scanned Result:</h4>
             <p id="result"></p>
             <h3>Product:</h3>
             <p id="product-result"></p>
          </div>
-         <button
-            onclick="startBarcodeScanner()"
-            style="
-               height: 40px;
-               width: 100px;
-               display: flex;
-               align-items: center;
-               font-size: 14px;
-               column-gap: 6px;
-               text-transform: uppercase;
-               letter-spacing: 1px;
-               background-color: black;
-               color: white;
-               cursor: pointer;
-            "
-         >
+         <button id="init-scan-btn" onclick="startBarcodeScanner()">
             <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path
                   fill-rule="evenodd"
@@ -44,52 +57,21 @@
    </body>
    <script src="scanner.js"></script>
    <script>
-            async function startBarcodeScanner() {
-               const accessToken = "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJRWlJkS3JabXJmMEk3WkhXRUtqNWRLTEhQanFubWJFeV9iNmpSbHdya1drIn0.eyJleHAiOjE3MTk0OTkwOTcsImlhdCI6MTcxOTQ5Nzg5NywianRpIjoiOTliMjVlODYtN2JjYi00ZDNjLTk4NzYtZTMwNTM0M2QzNmQxIiwiaXNzIjoiaHR0cHM6Ly9hdXRoLmF1LWF3cy50aGV3aXNobGlzdC5pby9hdXRoL3JlYWxtcy90d2NNYWluIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjI2YTIyNTAyLWRhNzQtNDhkMC1iZWFiLTgzY2E0YTlmMDdlOSIsInR5cCI6IkJlYXJlciIsImF6cCI6InR3Yy1wb3MtY2xpZW50Iiwic2Vzc2lvbl9zdGF0ZSI6Ijg1NjlmNGRhLTNhOTMtNDY4Ni05NmFmLTY2MDhiZWRlMGM4MSIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9sb2NhbGhvc3QiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbInR3Yy1wb3MtdXNlciIsIm9mZmxpbmVfYWNjZXNzIiwidHdjLXN0b3JlLW93bmVyIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InRlbmFudGlkIHN0b3JlIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInRlbmFudGlkIjoidmlrdG9yaWEtd29vZHMiLCJuYW1lIjoiTWF0dCBIYW1wc2hpcmUiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJtYXR0QHRoZXdpc2hsaXN0LmlvIiwic3RvcmUiOiIyMDUiLCJnaXZlbl9uYW1lIjoiTWF0dCIsImZhbWlseV9uYW1lIjoiSGFtcHNoaXJlIiwiZW1haWwiOiJtYXR0QHRoZXdpc2hsaXN0LmlvIn0.ArXvfnNImxCCx9dp-7mzLANOZZjDwKty-ln6rlOnfGN22hBauXZee-t15ARkMGB7CdVXVZp-byQPSCO66zvqC9pwycwQO-VpGP9NixYlHNCZ1bilvCvLe0YANwzbiv_uJZlSsyeXt02TBC3owDwD_StyDhjoXTspn6daNhiDlyOpISZ0xDj0zhbLmDlOwyJBbLpw2bSjO_MROvVgfVCOVY5kUNb9eCctk7DsDxCXBo6dgeKmxazCPrhjUHWOSIoNX1k6787l4vnbznbFJ8qxyNENPAJyay_4QSjLfix91o6kDKbzyNvI19UxpFRyvxtp34_B2LILoXX7z1qlhGfTlw";
-               const tenant = "viktoria-woods";
-               const scanner = new BarcodeScanner(accessToken, tenant);
-               try {
-                  const productInfo = await scanner.scanBarcode();
-                  console.log('productInfo: ', productInfo);
-                  document.getElementById("show").style.display = "block";
-                  const el = document.getElementById("result");
-                  el.textContent = productInfo.barcode;
-                  document.getElementById("product-result").innerText = JSON.stringify(productInfo);
-               } catch (error) {
-                  console.error("Error scanning barcode:", error);
-               }
-            }
-   </script>
-   <!-- <script>
-      function scanBarcode() {
-         const html5QRcode = new Html5Qrcode("reader");
-         const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-            if (decodedText) {
-               document.getElementById("show").style.display = "block";
-               document.getElementById("result").textContent = decodedText;
-               html5QRcode.stop();
-               fetch(`https://api.au-aws.thewishlist.io/services/productsvc/api/v2/products/variants/${decodedText}/byBarcode`, {
-                  method: "GET",
-                  headers: {
-                     "x-twc-tenant": "viktoria-woods",
-                     "authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJRWlJkS3JabXJmMEk3WkhXRUtqNWRLTEhQanFubWJFeV9iNmpSbHdya1drIn0.eyJleHAiOjE3MTk0OTY2NjAsImlhdCI6MTcxOTQ5NTQ2MCwianRpIjoiMjNlZTkzNDYtNGU0OC00MWQ0LWJjOTMtY2Y0NDhhMmM5ZjA4IiwiaXNzIjoiaHR0cHM6Ly9hdXRoLmF1LWF3cy50aGV3aXNobGlzdC5pby9hdXRoL3JlYWxtcy90d2NNYWluIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjI2YTIyNTAyLWRhNzQtNDhkMC1iZWFiLTgzY2E0YTlmMDdlOSIsInR5cCI6IkJlYXJlciIsImF6cCI6InR3Yy1wb3MtY2xpZW50Iiwic2Vzc2lvbl9zdGF0ZSI6IjQ4OWU1MWQ3LTNlOWUtNGFiMC04MjM5LTM5NGY3MDYyYWZlMiIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9sb2NhbGhvc3QiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbInR3Yy1wb3MtdXNlciIsIm9mZmxpbmVfYWNjZXNzIiwidHdjLXN0b3JlLW93bmVyIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InRlbmFudGlkIHN0b3JlIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInRlbmFudGlkIjoidmlrdG9yaWEtd29vZHMiLCJuYW1lIjoiTWF0dCBIYW1wc2hpcmUiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJtYXR0QHRoZXdpc2hsaXN0LmlvIiwic3RvcmUiOiIyMDUiLCJnaXZlbl9uYW1lIjoiTWF0dCIsImZhbWlseV9uYW1lIjoiSGFtcHNoaXJlIiwiZW1haWwiOiJtYXR0QHRoZXdpc2hsaXN0LmlvIn0.U4rbStrpNfsCrRuJejiu8bWuwg-C5LZsvrq8dvkymnHwXRl2_TTc95KzJX14YzCQk_Mdf3SsPkqJh_c2Ri-A7T-9v6R4Jy9Q5kcEBycBZNRLuXqh3VEtB5WWaokM28dAxgFS8FA6bLPT7cHBeFzYBMm4nxPP9ZW8E0AVBJ1CuqN8JhatjXFWSDfNBVXczJA3RmKSLE3mh_5xQkrWKbAX3wcSpKIXxLqAmUhgL0QFFnrkUDL5UtrgabyduR_Zez1KOyphjmSIdLv-mcCiUc54IX4BPvvyRgjzJj7CD_Aw5Gn7f-XMC_fgZu1nsOSh3elH3bj5DHSdsCC-85HtDWN9aQ"
-                  },
-               })
-                  .then((response) => response.json())
-                  .then((data) => {
-                     document.getElementById("product-result").textContent = JSON.stringify(data);
-                  })
-                  .catch((error) => {
-                     console.error("Error:", error);
-                  });
-            }
-         };
-
-         const config = {
-            fps: 10,
-            qrbox: { width: 200, height: 100 },
-         };
-         html5QRcode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+      async function startBarcodeScanner() {
+         const accessToken =
+            "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJRWlJkS3JabXJmMEk3WkhXRUtqNWRLTEhQanFubWJFeV9iNmpSbHdya1drIn0.eyJleHAiOjE3MTk1OTU5MjAsImlhdCI6MTcxOTU1MjcyMCwianRpIjoiNWJhZWNmOTMtYjM5Mi00MjdiLTk1Y2ItNDI5YTAzODI2Y2M4IiwiaXNzIjoiaHR0cHM6Ly9hdXRoLmF1LWF3cy50aGV3aXNobGlzdC5pby9hdXRoL3JlYWxtcy90d2NNYWluIiwiYXVkIjpbInJlYWxtLW1hbmFnZW1lbnQiLCJhY2NvdW50Il0sInN1YiI6IjJkMWI5ZmE1LThjYmQtNDRlYi1hM2QxLTkxMDZhYTVhZDM0ZiIsInR5cCI6IkJlYXJlciIsImF6cCI6InR3Yy1hcGktY2xpZW50IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwczovL2xvY2FsaG9zdCJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7InJlYWxtLW1hbmFnZW1lbnQiOnsicm9sZXMiOlsibWFuYWdlLXVzZXJzIiwidmlldy1jbGllbnRzIiwibWFuYWdlLWNsaWVudHMiLCJxdWVyeS1jbGllbnRzIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJjbGllbnRIb3N0IjoiMTkyLjE2OC4xMTQuMTAiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImNsaWVudElkIjoidHdjLWFwaS1jbGllbnQiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzZXJ2aWNlLWFjY291bnQtdHdjLWFwaS1jbGllbnQiLCJjbGllbnRBZGRyZXNzIjoiMTkyLjE2OC4xMTQuMTAifQ.gLSm8U1LP0PB329J7cPrfeyyR7R0n86fL8rCpXNi7WkxGGR6rQVWifWMrN0plIk1aq7VsY9-HkFx9JVQFPqPbp01G4GLNetschk12aPi4rPOCLN2gOph1auQROJF86qsp2bQyMPP4aGySIYBHV_CNlXwFRbIWyMWb06yTrYYoNZWpG_pmjWeD-tuzMAlY1yOhblvFNOZZgE4_jMjCwZ5wrXCe9JeOywMyBDUNaP9L9kYb3K0wgPp5Rzbv4blU47uzM5IpBH0BIyDvx6p9fui2xCNOY03tCIttAGaCGOwiR4xEtWPE8_cQbBcz0qlXhVyuPuNUCfnLBHNA4zVYcb9BA";
+         const tenant = "viktoria-woods";
+         const scanner = new BarcodeScanner(accessToken, tenant);
+         try {
+            const productInfo = await scanner.scanBarcode();
+            console.log("productInfo: ", productInfo);
+            document.getElementById("show").style.display = "block";
+            const el = document.getElementById("result");
+            el.textContent = productInfo.barcode;
+            document.getElementById("product-result").innerText = JSON.stringify(productInfo);
+         } catch (error) {
+            console.error("Error scanning barcode:", error);
+         }
       }
-   </script> -->
+   </script>
 </html>
