@@ -143,14 +143,15 @@ class BarcodeScanner {
                      headers: {
                         "x-twc-tenant": this.tenant,
                         "authorization": `Bearer ${this.accessToken}`,
+                        "content-type": "application/json"
                      },
                      body: JSON.stringify({
                         "product": {
-                           "productRef": productData.baseProductRef,
-                           "productVariant": productData.productRef,
+                          "productRef": productData.baseProductRef,
+                          "selectedVariantRef": productData.productRef,
                         },
                         "wishlistRef": this.wishlistRef,
-                     })
+                      })
                   });
                   console.log(addToWishlist);
                   resolve(productData);
