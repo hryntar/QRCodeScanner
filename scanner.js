@@ -136,8 +136,7 @@ class BarcodeScanner {
                         "x-twc-tenant": this.tenant,
                         "authorization": `Bearer ${this.accessToken}`,
                      },
-                  });
-                  
+                  }); 
                   const productData = await productResponse.json();
                   const addToWishlist = await fetch(`https://api.au-aws.thewishlist.io/services/wsservice/api/wishlist/items`, {
                      method: "POST",
@@ -147,8 +146,8 @@ class BarcodeScanner {
                      },
                      body: {
                         "product": {
-                           "productRef": data.baseProductRef,
-                           "productVariant": data.productRef,
+                           "productRef": productData.baseProductRef,
+                           "productVariant": productData.productRef,
                         },
                         "wishlistRef": this.wishlistRef,
                      }
