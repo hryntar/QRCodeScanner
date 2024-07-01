@@ -117,7 +117,7 @@ class BarcodeScanner {
             },
          });
          const data = await response.json();
-         this.wishlistRef = data.wishlistRef;
+         this.wishlistRef = data[0].wishlistRef;
       } catch (error) {
          console.error("Error fetching wishlistRef:", error);
       }
