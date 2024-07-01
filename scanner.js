@@ -137,27 +137,24 @@ class BarcodeScanner {
                         "authorization": `Bearer ${this.accessToken}`,
                      },
                   });
-                  if (productResponse.status === 200) {
-                     const productData = await productResponse.json();
-                     const addToWishlist = await fetch(`https://api.au-aws.thewishlist.io/services/wsservice/api/wishlist/items`, {
-                        method: "POST",
-                        headers: {
-                           "x-twc-tenant": this.tenant,
-                           "authorization": `Bearer ${this.accessToken}`,
+                  
+                  const productData = await productResponse.json();
+                  const addToWishlist = await fetch(`https://api.au-aws.thewishlist.io/services/wsservice/api/wishlist/items`, {
+                     method: "POST",
+                     headers: {
+                        "x-twc-tenant": this.tenant,
+                        "authorization": `Bearer ${this.accessToken}`,
+                     },
+                     body: {
+                        "product": {
+                           "productRef": data.baseProductRef,
+                           "productVariant": data.productRef,
                         },
-                        body: {
-                           "product": {
-                              "productRef": data.baseProductRef,
-                              "productVariant": data.productRef,
-                           },
-                           "wishlistRef": this.wishlistRef,
-                        }
-                     });
-                     console.log(addToWishlist);
-                     resolve(productData);
-                  } else {
-                     reject(new Error("Product not found"));
-                  }
+                        "wishlistRef": this.wishlistRef,
+                     }
+                  });
+                  console.log(addToWishlist);
+                  resolve(productData);
                } catch (error) {
                   reject(error);
                }
