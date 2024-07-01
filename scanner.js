@@ -138,6 +138,15 @@ class BarcodeScanner {
                      },
                   }); 
                   const productData = await productResponse.json();
+                  const payload = {
+                     product: {
+                        productRef: productData.baseProductRef,
+                        selectedVariantRef: productData.productRef,
+                     },
+                     wishlistRef: this.wishlistRef,
+                  }
+                  console.log(payload);
+                  console.log(JSON.stringify(payload));
                   const addToWishlist = await fetch(`https://api.au-aws.thewishlist.io/services/wsservice/api/wishlist/items`, {
                      method: "POST",
                      headers: {
@@ -147,11 +156,11 @@ class BarcodeScanner {
                         "x-twc-tenant": this.tenant
                      },
                      body: JSON.stringify({
-                        "product": {
-                          "productRef": productData.baseProductRef,
-                          "selectedVariantRef": productData.productRef,
+                        product: {
+                          productRef: productData.baseProductRef,
+                          selectedVariantRef: productData.productRef,
                         },
-                        "wishlisRef": this.wishlistRef,
+                        wishlistRef: this.wishlistRef,
                       })
                   });
                   console.log(addToWishlist);
